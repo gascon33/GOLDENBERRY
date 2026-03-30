@@ -1,0 +1,603 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GOLDENBERRY — Premium Wheat Vodka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{background:#050505;color:#FFFFFF;font-family:'Cinzel',serif;font-weight:400;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+
+.lang-toggle{position:fixed;top:1rem;right:1rem;z-index:101;background:transparent;border:1px solid #D4AF37;color:#D4AF37;padding:0.5rem 1rem;font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.2em;cursor:pointer;-webkit-appearance:none;transition:all .3s}
+.lang-toggle:active{opacity:0.6}
+
+/* GATE */
+#gate{position:fixed;inset:0;z-index:100;background:#050505;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;transition:opacity 1.2s ease}
+#gate.out{opacity:0;pointer-events:none}
+.g-rule{position:absolute;left:8vw;right:8vw;height:1px;background:linear-gradient(90deg,transparent,#D4AF3744,transparent)}
+.g-rule.t{top:10vh}
+.g-rule.b{bottom:10vh}
+.g-eyebrow{font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.95rem);letter-spacing:0.34em;color:#D4AF37;line-height:2.2;margin-bottom:2.5rem;opacity:0;animation:up 1s ease 0.2s forwards}
+.g-brand{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(2.5rem,9vw,5.5rem);letter-spacing:0.03em;color:#F7ECDB;line-height:1.2;margin-bottom:0.5rem;opacity:0;animation:up 1.2s ease 0.45s forwards}
+.g-craft{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1rem,3vw,1.5rem);letter-spacing:0.2em;color:#F7ECDB;margin-bottom:0;opacity:0;animation:up 1s ease 0.7s forwards}
+.g-div{width:1px;height:40px;background:linear-gradient(180deg,#D4AF37,transparent);margin:2.5rem auto;opacity:0;animation:fi 1s ease 1s forwards}
+.g-wlabel{font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.95rem);letter-spacing:0.4em;color:#D4AF37;margin-bottom:0.5rem;opacity:0;animation:fi 1s ease 1.2s forwards}
+.g-wdate{font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.95rem);letter-spacing:0.22em;color:#D4AF37;margin-bottom:3rem;opacity:0;animation:fi 1s ease 1.4s forwards}
+.g-enter{font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.95rem);letter-spacing:0.35em;background:#F7ECDB;color:#050505;border:none;padding:1.1rem 2.5rem;cursor:pointer;-webkit-appearance:none;border-radius:0;display:block;margin:0 auto;opacity:0;animation:fi 1s ease 1.6s forwards;transition:opacity .3s}
+.g-enter:active{opacity:0.8}
+
+/* MAIN */
+#main{opacity:0;transition:opacity 1.2s ease}
+#main.show{opacity:1}
+
+/* COLLECTION */
+#collection{padding:8vh 0 10vh;max-width:1300px;margin:0 auto}
+.col-header{text-align:center;padding:0 2rem 6vh}
+.col-brand{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1.1;letter-spacing:0.03em;color:#F7ECDB;display:block}
+.col-jacobco{font-size:clamp(2.5rem,10vw,4rem);margin-bottom:0.1rem}
+.col-craft{font-size:clamp(1rem,3.5vw,1.5rem);margin-bottom:1.5rem}
+.col-title{font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.95rem);letter-spacing:0.17em;color:#FFFFFF}
+.g-rule-h{width:36px;height:1px;background:linear-gradient(90deg,#8B6914,#D4AF37,#8B6914);margin:1.5rem auto;opacity:0.7}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr;gap:1px;background:#D4AF3712}
+@media(min-width:700px){.grid{grid-template-columns:1fr;max-width:700px;margin:0 auto}}
+
+/* CARD */
+.card{background:#0C0C0C;padding:clamp(2.5rem,5vw,4rem) clamp(1.5rem,4vw,3rem);display:flex;flex-direction:column;align-items:center;text-align:center;transition:background .5s}
+.card.open{background:#0f0f08}
+
+.bottle-container{width:100%;max-width:280px;height:400px;border:1px solid #D4AF3744;margin:2rem auto;display:flex;align-items:center;justify-content:center;background:rgba(212,175,55,0.02);overflow:hidden;flex-shrink:0}
+.bottle-container img{width:100%;height:auto;display:block}
+
+.c-brand{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.8rem,5vw,2.5rem);color:#F7ECDB;display:block;margin-bottom:0.5rem;letter-spacing:0.03em}
+.c-num{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.2rem,4vw,1.8rem);color:#D4AF37;display:block;margin-bottom:0.2rem;letter-spacing:0.05em}
+.c-age-lbl{font-family:'Cinzel',serif;font-size:clamp(0.65rem,2vw,0.75rem);letter-spacing:0.3em;color:#D4AF37;display:block;margin-bottom:0.8rem}
+.c-sub{font-family:'Cinzel',serif;font-size:clamp(0.7rem,2.2vw,0.85rem);letter-spacing:0.15em;color:#D4AF37;display:block;margin-bottom:1.2rem}
+.c-name{font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.95rem);letter-spacing:0.15em;color:#FFFFFF;font-weight:400;margin-bottom:2rem}
+
+.c-table{width:100%;max-width:400px;margin:2rem auto 0}
+.c-row{display:grid;grid-template-columns:0.65fr 1.35fr;gap:1.2rem;padding:clamp(1rem,2vw,1.2rem) 0;border-bottom:1px solid #D4AF3722;font-size:clamp(0.7rem,1.8vw,0.8rem)}
+.c-row:last-child{border-bottom:none}
+.c-lbl{color:#D4AF37;letter-spacing:0.15em;font-family:'Cinzel',serif}
+.c-val{color:#FFFFFF;letter-spacing:0.05em}
+
+.price-label{font-family:'Cinzel',serif;font-size:clamp(0.65rem,1.8vw,0.75rem);letter-spacing:0.25em;color:#D4AF37;margin-bottom:0.4rem;display:block}
+.price-amount{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(2rem,6vw,3rem);color:#F7ECDB;letter-spacing:0.05em;margin-bottom:1.5rem;display:block}
+
+.c-req{font-family:'Cinzel',serif;font-size:clamp(0.7rem,2vw,0.8rem);letter-spacing:0.2em;border:1px solid #F7ECDB;color:#F7ECDB;background:transparent;padding:0.9rem 1.8rem;cursor:pointer;-webkit-appearance:none;border-radius:0;display:block;margin:0 auto 1rem;transition:all .3s}
+.c-req:active{opacity:0.7}
+
+.qty-box{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:1rem}
+.qty-btn{font-family:'Cinzel',serif;font-size:1rem;width:2.2rem;height:2.2rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;cursor:pointer;transition:all .2s}
+.qty-btn:active{opacity:0.6}
+[data-qty]{transition:all .2s;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent}
+[data-qty].active{border:2px solid #F7ECDB;background:#F7ECDB;color:#050505;font-weight:bold}
+.qty-input{font-family:'Cinzel',serif;width:3rem;text-align:center;border:1px solid #D4AF3744;background:#0C0C0C;color:#F7ECDB;padding:0.4rem}
+
+.c-add{font-family:'Cinzel',serif;font-size:clamp(0.7rem,2vw,0.8rem);letter-spacing:0.2em;border:1px solid #F7ECDB;color:#F7ECDB;background:transparent;padding:0.9rem 2rem;cursor:pointer;-webkit-appearance:none;border-radius:0;display:block;width:100%;max-width:300px;transition:all .3s}
+.c-add:active{opacity:0.7}
+
+/* BOTTOM BAR */
+.bar{position:fixed;bottom:0;left:0;right:0;background:#050505;border-top:1px solid #D4AF3744;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;z-index:50}
+.bar-label{font-family:'Cinzel',serif;font-size:clamp(0.7rem,2vw,0.8rem);letter-spacing:0.15em;color:#D4AF37}
+.bar-btn{font-family:'Cinzel',serif;font-size:clamp(0.7rem,2vw,0.8rem);letter-spacing:0.2em;border:1px solid #F7ECDB;color:#F7ECDB;background:transparent;padding:0.8rem 1.5rem;cursor:pointer;-webkit-appearance:none;border-radius:0;transition:all .3s}
+.bar-btn:active{opacity:0.6}
+body.modal-open{overflow:hidden}
+body.modal-open #main{filter:blur(3px)}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(5,5,5,0.95);z-index:200;display:none;align-items:center;justify-content:center;padding:2rem;overflow-y:auto}
+.modal.show{display:flex}
+.modal-box{background:#0C0C0C;border:1px solid #D4AF3744;max-width:500px;width:100%;padding:2rem;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:1.5rem;right:1.5rem;font-size:2rem;border:none;background:none;color:#D4AF37;cursor:pointer;width:3rem;height:3rem;display:flex;align-items:center;justify-content:center}
+.modal-close:active{opacity:0.6}
+.modal-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.5rem,4vw,2rem);color:#F7ECDB;margin-bottom:1.5rem;letter-spacing:0.03em}
+.modal-item{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid #D4AF3722}
+.modal-item-name{color:#FFFFFF;font-family:'Cinzel',serif;font-size:0.8rem}
+.modal-item-qty{color:#D4AF37;font-family:'Cinzel',serif;font-size:0.8rem;margin:0 1rem}
+.modal-item-price{color:#F7ECDB;font-family:'Cinzel',serif;font-size:0.9rem;font-weight:bold}
+.modal-item-del{border:none;background:none;color:#D4AF37;cursor:pointer;font-size:1.2rem}
+.modal-item-del:active{opacity:0.6}
+.modal-subtotal{display:flex;justify-content:space-between;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #D4AF3744}
+.m-label{color:#D4AF37;font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.15em}
+.m-value{color:#F7ECDB;font-family:'Cinzel',serif;font-size:1rem}
+.m-form-group{margin-bottom:1.5rem}
+.m-form-label{display:block;color:#D4AF37;font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.2em;margin-bottom:0.5rem}
+.m-form-input{width:100%;padding:0.8rem;border:1px solid #D4AF3744;background:#050505;color:#FFFFFF;font-family:'Cinzel',serif;font-size:0.85rem}
+.m-form-input:focus{outline:none;border-color:#D4AF37}
+.m-nav-buttons{display:flex;gap:1rem;margin-top:2rem}
+.m-nav-buttons button{flex:1;padding:1rem;font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.2em;border:1px solid #F7ECDB;background:transparent;color:#F7ECDB;cursor:pointer;-webkit-appearance:none;border-radius:0;transition:all .3s;min-height:45px;display:flex;align-items:center;justify-content:center}
+.m-nav-buttons button:active{opacity:0.6}
+.m-submit{width:100%;padding:1rem;font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.2em;border:1px solid #F7ECDB;color:#F7ECDB;background:transparent;cursor:pointer;-webkit-appearance:none;border-radius:0;margin-top:1rem;transition:all .3s;min-height:45px;display:flex;align-items:center;justify-content:center}
+.m-submit:active{opacity:0.6}
+.m-terms{font-family:'Cinzel',serif;font-size:0.7rem;color:#999;line-height:1.6;margin-top:1.5rem;text-align:center;letter-spacing:0.05em}
+
+/* FOOTER */
+footer{padding:4vh 2rem;text-align:center;margin-bottom:60px}
+footer p{color:#F7ECDB;opacity:0.5;font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.15em}
+
+@keyframes up{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){.bar{padding:0.8rem 1rem;font-size:0.75rem}.modal-box{padding:1.5rem}.bar-label{display:none}}
+</style>
+</head>
+<body>
+
+<button class="lang-toggle" onclick="toggleLang()">EN / FR</button>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="g-rule t"></div>
+  <p class="g-eyebrow" data-en="PREMIUM VODKA COLLECTION" data-fr="COLLECTION VODKA PREMIUM">PREMIUM VODKA COLLECTION</p>
+  <p class="g-brand">GOLDENBERRY</p>
+  <p class="g-craft" data-en="WHEAT VODKA" data-fr="VODKA DE BLÉ">WHEAT VODKA</p>
+  <div class="g-div"></div>
+  <p class="g-wlabel" data-en="AVAILABLE NOW" data-fr="DISPONIBLE MAINTENANT">AVAILABLE NOW</p>
+  <p class="g-wdate" data-en="FRENCH DISTILLATION" data-fr="DISTILLATION FRANÇAISE">FRENCH DISTILLATION</p>
+  <button class="g-enter" data-en="VIEW COLLECTION" data-fr="VOIR LA COLLECTION" onclick="goToCollection()">VIEW COLLECTION</button>
+  <div class="g-rule b"></div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="collection">
+    <div class="col-header">
+      <span class="col-brand col-jacobco">GOLDENBERRY</span>
+      <span class="col-brand col-craft" data-en="WHEAT VODKA" data-fr="VODKA DE BLÉ">WHEAT VODKA</span>
+      <h2 class="col-title" data-en="Premium Collection" data-fr="Collection Premium">Premium Collection</h2>
+      <div class="g-rule-h"></div>
+    </div>
+    
+    <div class="grid">
+      <!-- CARD 1 — GOLDENBERRY VODKA -->
+      <div class="card rev" data-id="1" data-name-en="Vodka · Premium Wheat Vodka" data-name-fr="Vodka · Vodka de Blé Premium" data-price="30">
+        <span class="c-brand">GOLDENBERRY</span>
+        <span class="c-num">40%</span>
+        <span class="c-age-lbl" data-en="ALCOHOL CONTENT" data-fr="TENEUR EN ALCOOL">ALCOHOL CONTENT</span>
+        <span class="c-sub" data-en="100% PREMIUM WHEAT VODKA" data-fr="100% VODKA DE BLÉ PREMIUM">100% PREMIUM WHEAT VODKA</span>
+        <h3 class="c-name" data-en="Wheat Vodka · France" data-fr="Vodka de Blé · France">Wheat Vodka · France</h3>
+        
+        <!-- BOTTLE IMAGE -->
+        <div class="bottle-container">
+          <img src="bottle.jpg" alt="GOLDENBERRY Wheat Vodka Bottle" width="280" height="400">
+        </div>
+        
+        <!-- SPECS TABLE -->
+        <div class="c-table">
+          <div class="c-row">
+            <span class="c-lbl" data-en="ORIGIN" data-fr="ORIGINE">ORIGIN</span>
+            <span class="c-val" data-en="Produced in France" data-fr="Produit en France">Produced in France</span>
+          </div>
+          <div class="c-row">
+            <span class="c-lbl" data-en="BASE SPIRIT" data-fr="BASE">BASE SPIRIT</span>
+            <span class="c-val" data-en="Selected Wheat" data-fr="Blé Sélectionné">Selected Wheat</span>
+          </div>
+          <div class="c-row">
+            <span class="c-lbl" data-en="VOLUME" data-fr="VOLUME">VOLUME</span>
+            <span class="c-val">70 cl</span>
+          </div>
+          <div class="c-row">
+            <span class="c-lbl" data-en="ALCOHOL" data-fr="ALCOOL">ALCOHOL</span>
+            <span class="c-val">40% vol</span>
+          </div>
+          <div class="c-row">
+            <span class="c-lbl" data-en="CHARACTER" data-fr="CARACTÈRE">CHARACTER</span>
+            <span class="c-val" data-en="Warmth, depth, soft finish" data-fr="Chaleur, profondeur, finition douce">Warmth, depth, soft finish</span>
+          </div>
+          <div class="c-row">
+            <span class="c-lbl" data-en="TASTING" data-fr="DÉGUSTATION">TASTING</span>
+            <span class="c-val" data-en="Sip slowly, like cognac" data-fr="À siroter lentement, comme un cognac">Sip slowly, like cognac</span>
+          </div>
+        </div>
+        
+        <!-- PRICE -->
+        <span class="price-label" data-en="PRICE PER BOTTLE" data-fr="PRIX PAR BOUTEILLE">PRICE PER BOTTLE</span>
+        <span class="price-amount">€30</span>
+        
+        <!-- REQUEST BUTTON -->
+        <button class="c-req" data-en="ORDER" data-fr="COMMANDER" onclick="toggleCard(1)">ORDER</button>
+        
+        <!-- QTY & ADD -->
+        <div id="expand1" style="display:none;width:100%;text-align:center">
+          <input type="hidden" id="qty1" value="1">
+          <div style="display:flex;justify-content:center;gap:0.4rem;margin-bottom:1.5rem;flex-wrap:wrap">
+            <button type="button" class="qty-preset" data-id="1" data-qty="1" style="width:2.5rem;height:2.5rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;font-family:'Cinzel',serif;font-size:0.85rem;cursor:pointer;transition:all .2s" onclick="selectQty(1, 1, this)">1</button>
+            <button type="button" class="qty-preset" data-id="1" data-qty="3" style="width:2.5rem;height:2.5rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;font-family:'Cinzel',serif;font-size:0.85rem;cursor:pointer;transition:all .2s" onclick="selectQty(1, 3, this)">3</button>
+            <button type="button" class="qty-preset" data-id="1" data-qty="6" style="width:2.5rem;height:2.5rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;font-family:'Cinzel',serif;font-size:0.85rem;cursor:pointer;transition:all .2s" onclick="selectQty(1, 6, this)">6</button>
+            <button type="button" class="qty-preset" data-id="1" data-qty="12" style="width:2.5rem;height:2.5rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;font-family:'Cinzel',serif;font-size:0.85rem;cursor:pointer;transition:all .2s" onclick="selectQty(1, 12, this)">12</button>
+            <button type="button" class="qty-preset" data-id="1" data-qty="18" style="width:2.5rem;height:2.5rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;font-family:'Cinzel',serif;font-size:0.85rem;cursor:pointer;transition:all .2s" onclick="selectQty(1, 18, this)">18</button>
+            <button type="button" class="qty-preset" data-id="1" data-qty="24" style="width:2.5rem;height:2.5rem;border:1px solid #D4AF3744;color:#F7ECDB;background:transparent;font-family:'Cinzel',serif;font-size:0.85rem;cursor:pointer;transition:all .2s" onclick="selectQty(1, 24, this)">24</button>
+          </div>
+          
+          <!-- PREVIEW SELECTED QTY -->
+          <div id="qtyPreview1" style="display:none;background:rgba(212,175,55,0.1);border:1px solid #D4AF3744;padding:1.5rem;margin-bottom:1.5rem;text-align:center">
+            <div style="color:#D4AF37;font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.2em;margin-bottom:0.5rem">SELECTED QUANTITY</div>
+            <div style="color:#F7ECDB;font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:400;margin-bottom:0.5rem" id="qtyDisplay1">—</div>
+            <div style="color:#FFFFFF;font-family:'Cinzel',serif;font-size:0.85rem" id="qtyCalc1">€0</div>
+          </div>
+          
+          <button class="c-add" data-en="ADD TO ORDER" data-fr="AJOUTER À LA COMMANDE" onclick="addToCart(1)" style="margin:0 auto;display:block">ADD TO ORDER</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>GOLDENBERRY · PREMIUM WHEAT VODKA · FRANCE</p>
+  </footer>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bar">
+  <span class="bar-label" data-en="YOUR ORDER" data-fr="VOTRE COMMANDE">YOUR ORDER</span>
+  <button class="bar-btn" data-en="SUBMIT ORDER" data-fr="SOUMETTRE LA COMMANDE" onclick="showModal(1)">SUBMIT ORDER</button>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal" id="previewModal">
+  <div class="modal-box" style="max-width:400px">
+    <button class="modal-close" onclick="closePreviewModal()">×</button>
+    <h3 class="modal-title" data-en="Item Added to Order" data-fr="Article Ajouté à la Commande">Item Added to Order</h3>
+    <div id="previewItems"></div>
+    <div class="modal-subtotal">
+      <span class="m-label" data-en="TOTAL" data-fr="TOTAL">TOTAL</span>
+      <span class="m-value" id="previewTotal">€0</span>
+    </div>
+    <div class="m-nav-buttons">
+      <button data-en="CONTINUE SHOPPING" data-fr="CONTINUER LES ACHATS" onclick="closePreviewModal()">CONTINUE SHOPPING</button>
+      <button data-en="VIEW CART" data-fr="VOIR PANIER" onclick="closePreviewModalAndShowCart()">VIEW CART</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    
+    <!-- STEP 1: CART -->
+    <div id="step1">
+      <h3 class="modal-title" data-en="Your Order" data-fr="Votre Commande">Your Order</h3>
+      <div id="cartItems"></div>
+      <div class="modal-subtotal">
+        <span class="m-label" data-en="TOTAL" data-fr="TOTAL">TOTAL</span>
+        <span class="m-value" id="totalPrice">€0</span>
+      </div>
+      <div class="m-terms" style="background:rgba(212,175,55,0.1);padding:1rem;margin:1.5rem 0;border-left:3px solid #D4AF37">
+        <p style="margin-bottom:0.8rem;font-size:0.75rem;color:#D4AF37;letter-spacing:0.1em;font-weight:bold" data-en="IMPORTANT INFORMATION:" data-fr="INFORMATION IMPORTANTE:">IMPORTANT INFORMATION:</p>
+        <p style="font-size:0.7rem;line-height:1.8;color:#CCCCCC" data-en="France & EU: VAT (20%) included in price. | Outside EU: No VAT charged. | All orders: Complete invoice with shipping calculation sent to email." data-fr="France & UE: TVA (20%) incluse dans le prix. | Hors UE: Pas de TVA facturée. | Toutes les commandes: Facture complète avec calcul de livraison envoyée par e-mail.">France & EU: VAT (20%) included in price. | Outside EU: No VAT charged. | All orders: Complete invoice with shipping calculation sent to email.</p>
+      </div>
+      <div class="m-nav-buttons">
+        <button data-en="BACK TO COLLECTION" data-fr="RETOUR À LA COLLECTION" onclick="closeModal()">BACK TO COLLECTION</button>
+        <button data-en="CONTINUE" data-fr="CONTINUER" onclick="showStep2()">CONTINUE</button>
+      </div>
+    </div>
+    
+    <!-- STEP 2: CONTACT -->
+    <div id="step2" style="display:none">
+      <h3 class="modal-title" data-en="Contact Details" data-fr="Détails de Contact">Contact Details</h3>
+      <form id="contactForm" onsubmit="submitOrder(event)">
+        <div class="m-form-group">
+          <label class="m-form-label" data-en="NAME" data-fr="NOM">NAME</label>
+          <input type="text" class="m-form-input" name="name" required>
+        </div>
+        <div class="m-form-group">
+          <label class="m-form-label" data-en="EMAIL" data-fr="E-MAIL">EMAIL</label>
+          <input type="email" class="m-form-input" name="email" required>
+        </div>
+        <div class="m-form-group">
+          <label class="m-form-label" data-en="PHONE" data-fr="TÉLÉPHONE">PHONE</label>
+          <input type="tel" class="m-form-input" name="phone" required>
+        </div>
+        <div class="m-form-group">
+          <label class="m-form-label" data-en="ADDRESS" data-fr="ADRESSE">ADDRESS</label>
+          <input type="text" class="m-form-input" name="address" required onchange="calculateShipping()">
+        </div>
+        <div class="m-form-group">
+          <label class="m-form-label" data-en="COUNTRY" data-fr="PAYS">COUNTRY</label>
+          <input type="text" class="m-form-input" name="country" required onchange="calculateShipping()">
+        </div>
+        <div id="shippingInfo" style="display:none;background:rgba(212,175,55,0.1);border:1px solid #D4AF3744;padding:1rem;margin-bottom:1.5rem;border-radius:2px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+            <span class="m-label" data-en="SHIPPING" data-fr="LIVRAISON">SHIPPING</span>
+            <span class="m-value" id="shippingCost">€0</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid #D4AF3744;padding-top:0.5rem;margin-top:0.5rem">
+            <span class="m-label"><strong data-en="TOTAL WITH SHIPPING" data-fr="TOTAL AVEC LIVRAISON">TOTAL WITH SHIPPING</strong></span>
+            <span class="m-value"><strong id="totalWithShipping">€0</strong></span>
+          </div>
+        </div>
+        <div class="m-terms" data-en-text="IMPORTANT: Price includes French VAT (20%). International orders: VAT excluded. Customer pays VAT upon delivery. Delivery not included." data-fr-text="IMPORTANT: Le prix inclut la TVA française (20%). Commandes internationales: TVA exclue. Le client paie la TVA à la livraison. Livraison non incluse.">
+          <p><strong data-en="IMPORTANT:" data-fr="IMPORTANT:">IMPORTANT:</strong></p>
+          <p data-en="Price includes French VAT (20%)." data-fr="Le prix inclut la TVA française (20%)">Price includes French VAT (20%).</p>
+          <p data-en="International orders: VAT excluded." data-fr="Commandes internationales: TVA exclue">International orders: VAT excluded.</p>
+          <p data-en="Customer pays VAT upon delivery." data-fr="Le client paie la TVA à la livraison">Customer pays VAT upon delivery.</p>
+          <p data-en="Delivery not included." data-fr="Livraison non incluse">Delivery not included.</p>
+        </div>
+        <div class="m-nav-buttons">
+          <button type="button" data-en="BACK" data-fr="RETOUR" onclick="showStep1()">BACK</button>
+          <button type="submit" data-en="CONFIRM ORDER" data-fr="CONFIRMER LA COMMANDE">CONFIRM ORDER</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+let cart = {};
+let currentLang = 'en';
+
+function toggleLang(){
+  currentLang = currentLang === 'en' ? 'fr' : 'en';
+  updateAllText();
+}
+
+function updateAllText(){
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+  });
+  document.querySelectorAll('[data-name-en]').forEach(el => {
+    el.setAttribute('data-name', currentLang === 'en' ? el.getAttribute('data-name-en') : el.getAttribute('data-name-fr'));
+  });
+  renderCart();
+  updateBar();
+}
+
+function goToCollection(){
+  document.getElementById('gate').classList.add('out');
+  setTimeout(() => document.getElementById('main').classList.add('show'), 100);
+}
+
+function toggleCard(id){
+  const expand = document.getElementById(`expand${id}`);
+  expand.style.display = expand.style.display === 'none' ? 'block' : 'none';
+}
+
+function updateQty(id, delta){
+  const input = document.getElementById(`qty${id}`);
+  const newVal = Math.max(1, parseInt(input.value) + delta);
+  input.value = newVal;
+}
+
+function selectQty(itemId, qty, btn){
+  // Set value
+  document.getElementById(`qty${itemId}`).value = qty;
+  
+  // Update button colors
+  document.querySelectorAll(`[data-id="${itemId}"][data-qty]`).forEach(b => {
+    b.style.border = '1px solid #D4AF3744';
+    b.style.background = 'transparent';
+    b.style.color = '#F7ECDB';
+  });
+  
+  // Highlight clicked button
+  btn.style.border = '2px solid #F7ECDB';
+  btn.style.background = '#F7ECDB';
+  btn.style.color = '#050505';
+  btn.style.fontWeight = 'bold';
+  
+  // Show preview
+  const card = document.querySelector(`[data-id="${itemId}"]`);
+  const price = parseFloat(card.getAttribute('data-price'));
+  const preview = document.getElementById(`qtyPreview${itemId}`);
+  const display = document.getElementById(`qtyDisplay${itemId}`);
+  const calc = document.getElementById(`qtyCalc${itemId}`);
+  
+  preview.style.display = 'block';
+  display.textContent = qty;
+  calc.textContent = `€${(price * qty).toFixed(0)}`;
+}
+
+function addToCart(id){
+  const card = document.querySelector(`[data-id="${id}"]`);
+  const qty = parseInt(document.getElementById(`qty${id}`).value);
+  const name = card.getAttribute('data-name');
+  const price = parseFloat(card.getAttribute('data-price'));
+  
+  if(!cart[id]) cart[id] = {name, price, qty: 0};
+  cart[id].qty += qty;
+  
+  document.getElementById(`qty${id}`).value = 1;
+  toggleCard(id);
+  updateBar();
+  
+  // Show preview modal
+  showPreviewModal();
+}
+
+function showPreviewModal(){
+  document.body.classList.add('modal-open');
+  const previewModal = document.getElementById('previewModal');
+  if(!previewModal) return;
+  previewModal.classList.add('show');
+  
+  let html = '';
+  let total = 0;
+  Object.entries(cart).forEach(([id, item]) => {
+    const subtotal = item.price * item.qty;
+    total += subtotal;
+    html += `
+      <div style="padding:1.5rem;text-align:center;border:1px solid #D4AF3744;margin-bottom:1rem">
+        <div style="color:#D4AF37;font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.2em;margin-bottom:0.5rem" data-en="QUANTITY" data-fr="QUANTITÉ">QUANTITY</div>
+        <div style="color:#F7ECDB;font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;margin-bottom:1rem">${item.qty}</div>
+        <div style="color:#FFFFFF;font-family:'Cinzel',serif;font-size:0.9rem;margin-bottom:0.5rem">${item.name}</div>
+        <div style="color:#D4AF37;font-family:'Cinzel',serif;font-size:0.85rem">€${item.price} × ${item.qty} = <strong>€${subtotal.toFixed(0)}</strong></div>
+      </div>
+    `;
+  });
+  
+  document.getElementById('previewItems').innerHTML = html;
+  document.getElementById('previewTotal').textContent = `€${total.toFixed(0)}`;
+}
+
+function updateBar(){
+  const total = Object.values(cart).reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const yourOrder = currentLang === 'en' ? 'YOUR ORDER' : 'VOTRE COMMANDE';
+  document.querySelector('.bar-label').textContent = `${yourOrder} (€${total.toFixed(0)})`;
+}
+
+function showModal(){
+  document.body.classList.add('modal-open');
+  document.getElementById('modal').classList.add('show');
+  showStep1();
+}
+
+function closePreviewModal(){
+  document.getElementById('previewModal').classList.remove('show');
+  document.body.classList.remove('modal-open');
+}
+
+function closePreviewModalAndShowCart(){
+  closePreviewModal();
+  setTimeout(() => showModal(), 300);
+}
+
+function closeModal(){
+  document.body.classList.remove('modal-open');
+  document.getElementById('modal').classList.remove('show');
+}
+
+function showStep1(){
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step2').style.display = 'none';
+  renderCart();
+}
+
+function showStep2(){
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+}
+
+function renderCart(){
+  const itemsDiv = document.getElementById('cartItems');
+  let html = '';
+  let total = 0;
+  
+  Object.entries(cart).forEach(([id, item]) => {
+    const subtotal = item.price * item.qty;
+    total += subtotal;
+    html += `
+      <div class="modal-item">
+        <span class="modal-item-name">${item.name}</span>
+        <span class="modal-item-qty">${item.qty}x</span>
+        <span class="modal-item-price">€${subtotal.toFixed(0)}</span>
+        <button class="modal-item-del" onclick="removeFromCart(${id})">✕</button>
+      </div>
+    `;
+  });
+  
+  itemsDiv.innerHTML = html;
+  document.getElementById('totalPrice').textContent = `€${total.toFixed(0)}`;
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  renderCart();
+  updateBar();
+}
+
+function submitOrder(e){
+  e.preventDefault();
+  const formData = new FormData(document.getElementById('contactForm'));
+  
+  let items = '';
+  Object.entries(cart).forEach(([id, item]) => {
+    items += `${item.name}: ${item.qty}x €${item.price}\n`;
+  });
+  
+  const total = Object.values(cart).reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const shipping = calculateShippingCost(formData.get('country'));
+  const totalWithShipping = total + shipping;
+  
+  const message = `
+NAME: ${formData.get('name')}
+EMAIL: ${formData.get('email')}
+PHONE: ${formData.get('phone')}
+ADDRESS: ${formData.get('address')}
+COUNTRY: ${formData.get('country')}
+
+ORDER:
+${items}
+SUBTOTAL: €${total.toFixed(0)}
+SHIPPING: €${shipping.toFixed(0)}
+TOTAL: €${totalWithShipping.toFixed(0)}
+  `.trim();
+  
+  fetch('/api/send', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({message})
+  })
+  .then(r => r.json())
+  .then(data => {
+    const msg = currentLang === 'en' ? 'Order submitted! We will contact you soon.' : 'Commande soumise! Nous vous contacterons bientôt.';
+    alert(msg);
+    cart = {};
+    closeModal();
+    updateBar();
+  })
+  .catch(err => alert('Error submitting order'));
+}
+
+function calculateShippingCost(country){
+  if(!country) return 0;
+  
+  const shippingRates = {
+    'France': 0,
+    'FRANCE': 0,
+    'france': 0,
+    'Belgium': 15,
+    'BELGIUM': 15,
+    'belgium': 15,
+    'Netherlands': 15,
+    'NETHERLANDS': 15,
+    'netherlands': 15,
+    'Germany': 20,
+    'GERMANY': 20,
+    'germany': 20,
+    'Spain': 20,
+    'SPAIN': 20,
+    'spain': 20,
+    'Italy': 20,
+    'ITALY': 20,
+    'italy': 20,
+    'Austria': 20,
+    'AUSTRIA': 20,
+    'austria': 20,
+    'Switzerland': 25,
+    'SWITZERLAND': 25,
+    'switzerland': 25,
+    'UK': 30,
+    'uk': 30,
+    'United Kingdom': 30,
+    'UNITED KINGDOM': 30,
+  };
+  
+  return shippingRates[country] || 35; // Default for other countries
+}
+
+function calculateShipping(){
+  const form = document.getElementById('contactForm');
+  const country = form.elements['country'].value;
+  const address = form.elements['address'].value;
+  
+  if(!country || !address){
+    document.getElementById('shippingInfo').style.display = 'none';
+    return;
+  }
+  
+  const shipping = calculateShippingCost(country);
+  const total = Object.values(cart).reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const totalWithShipping = total + shipping;
+  
+  document.getElementById('shippingCost').textContent = `€${shipping}`;
+  document.getElementById('totalWithShipping').textContent = `€${totalWithShipping.toFixed(0)}`;
+  document.getElementById('shippingInfo').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
