@@ -327,16 +327,6 @@ footer p{color:#F7ECDB;opacity:0.5;font-family:'Cinzel',serif;font-size:0.8rem;l
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  setTimeout(function(){
-    if(typeof emailjs !== 'undefined'){
-      emailjs.init('Qy4nT8VZ5QpRRc1dr');
-      console.log('EmailJS initialized');
-    }
-  }, 500);
-});
-</script>
 
 <script>
 let cart = {};
@@ -514,13 +504,6 @@ function removeFromCart(id){
 function submitOrder(e){
   e.preventDefault();
   
-  // Check if emailjs is loaded
-  if(typeof emailjs === 'undefined'){
-    // Retry after 1 second
-    setTimeout(() => submitOrder(e), 1000);
-    return;
-  }
-  
   const formData = new FormData(document.getElementById('contactForm'));
   
   let items = '';
@@ -546,11 +529,20 @@ SHIPPING: €${shipping.toFixed(0)}
 TOTAL: €${totalWithShipping.toFixed(0)}
   `.trim();
   
-  emailjs.send('service_c2810sm', 'template_xigzj0g', {
-    to_email: 'grainisvodka@gmail.com',
-    from_email: formData.get('email'),
-    from_name: formData.get('name'),
-    message: message
+  // Send via Formspree
+  fetch('https://formspree.io/f/mbdpoova', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      address: formData.get('address'),
+      country: formData.get('country'),
+      message: message
+    })
   }).then(response => {
     const msg = currentLang === 'en' ? 'Order submitted! We will contact you soon.' : 'Commande soumise! Nous vous contacterons bientôt.';
     alert(msg);
