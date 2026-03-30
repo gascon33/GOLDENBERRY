@@ -510,6 +510,13 @@ function removeFromCart(id){
 
 function submitOrder(e){
   e.preventDefault();
+  
+  // Check if emailjs is loaded
+  if(typeof emailjs === 'undefined'){
+    alert('Email service is loading. Please try again in a moment.');
+    return;
+  }
+  
   const formData = new FormData(document.getElementById('contactForm'));
   
   let items = '';
