@@ -328,7 +328,11 @@ footer p{color:#F7ECDB;opacity:0.5;font-family:'Cinzel',serif;font-size:0.8rem;l
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
 <script>
-emailjs.init('Qy4nT8VZ5QpRRc1dr');
+window.addEventListener('load', function(){
+  if(typeof emailjs !== 'undefined'){
+    emailjs.init('Qy4nT8VZ5QpRRc1dr');
+  }
+});
 </script>
 
 <script>
