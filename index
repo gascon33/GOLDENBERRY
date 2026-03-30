@@ -326,6 +326,11 @@ footer p{color:#F7ECDB;opacity:0.5;font-family:'Cinzel',serif;font-size:0.8rem;l
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+<script>
+emailjs.init('Qy4nT8VZ5QpRRc1dr');
+</script>
+
 <script>
 let cart = {};
 let currentLang = 'en';
@@ -526,20 +531,21 @@ SHIPPING: €${shipping.toFixed(0)}
 TOTAL: €${totalWithShipping.toFixed(0)}
   `.trim();
   
-  fetch('/api/send', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({message})
-  })
-  .then(r => r.json())
-  .then(data => {
+  emailjs.send('service_c2810sm', 'template_xigzj0g', {
+    to_email: 'grainisvodka@gmail.com',
+    from_email: formData.get('email'),
+    from_name: formData.get('name'),
+    message: message
+  }).then(response => {
     const msg = currentLang === 'en' ? 'Order submitted! We will contact you soon.' : 'Commande soumise! Nous vous contacterons bientôt.';
     alert(msg);
     cart = {};
     closeModal();
     updateBar();
-  })
-  .catch(err => alert('Error submitting order'));
+  }).catch(err => {
+    console.error('Error:', err);
+    alert('Error submitting order. Please try again.');
+  });
 }
 
 function calculateShippingCost(country){
